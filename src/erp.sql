@@ -23,19 +23,66 @@ create table superUserLogin
 	department varchar(30) not null
 );
 
-create table registrationStatus
-(
-	userName varchar(12) not null,
-	status varchar(1),
-	foreign key(userName) references login(userName)
-);
-
 create table allSubjects
 (
 	SubjectID varchar(10) not null PRIMARY KEY,
 	Subject varchar(40) not null,
 	Credits int not null,
 	Teacher varchar(30) not null
+);
+
+create table 2009s1
+(
+	userName varchar(12) not null,
+	SubjectID varchar(10) not null,
+ 	Grade varchar(2) not null,
+	foreign key(userName) references login(userName),
+	foreign key(SubjectID) references allSubjects(SubjectID)
+);
+
+create table 2009s2
+(
+	userName varchar(12) not null,
+	SubjectID varchar(10) not null,
+ 	Grade varchar(2) not null,
+	foreign key(userName) references login(userName),
+	foreign key(SubjectID) references allSubjects(SubjectID)
+);
+
+create table 2010s1
+(
+	userName varchar(12) not null,
+	SubjectID varchar(10) not null,
+ 	Grade varchar(2) not null,
+	foreign key(userName) references login(userName),
+	foreign key(SubjectID) references allSubjects(SubjectID)
+);
+
+create table 2010s2
+(
+	userName varchar(12) not null,
+	SubjectID varchar(10) not null,
+ 	Grade varchar(2) not null,
+	foreign key(userName) references login(userName),
+	foreign key(SubjectID) references allSubjects(SubjectID)
+);
+
+create table 2011s1
+(
+	userName varchar(12) not null,
+	SubjectID varchar(10) not null,
+ 	Grade varchar(2) not null,
+	foreign key(userName) references login(userName),
+	foreign key(SubjectID) references allSubjects(SubjectID)
+);
+
+create table 2011s2
+(
+	userName varchar(12) not null,
+	SubjectID varchar(10) not null,
+ 	Grade varchar(2) not null,
+	foreign key(userName) references login(userName),
+	foreign key(SubjectID) references allSubjects(SubjectID)
 );
 
 create table utility
@@ -45,9 +92,9 @@ create table utility
 	isRegEnabled varchar(5) not null
 );
 
-insert into utility(column1, column2) values('currentSemester', '2008s2');
+insert into utility(column1, column2) values('currentSemester', '2011s2');
 
-insert into login(userName, password, name, dob, yearOfAdmission, department, address) values('09MA2026', 'yuyuhakusho', 'Vishal Raj', '31/10/1991', '2009', 'Mathematics', 'C-334 LLR Hall IIT Kgp');
+insert into login(userName, password, name, dob, yearOfAdmission, department, address) values('5050', 'user1', 'user1', '31/10/1991', '2009', 'Mathematics', 'heaven city heaven');
 
 insert into superUserLogin(userName, password) values('System', '01010101');
 
@@ -77,4 +124,36 @@ insert into allSubjects(SubjectID, Subject, Credits, Teacher) values('ME19001', 
 insert into allSubjects(SubjectID, Subject, Credits, Teacher) values('MA30006', 'Switching and finite automata', 4, 'S.Mukhopadhaya');
 insert into allSubjects(SubjectID, Subject, Credits, Teacher) values('MA41002', 'Modern Algebra', 4, 'C.Nahak');
 insert into allSubjects(SubjectID, Subject, Credits, Teacher) values('MA30014', 'Operation Research', 3, 'R.Gayen');
+
+insert into 2009s1(userName, SubjectID, Grade) values('5050', 'CY11001', 'A');
+insert into 2009s1(userName, SubjectID, Grade) values('5050', 'HS13001', 'EX');
+insert into 2009s1(userName, SubjectID, Grade) values('5050', 'MA10001', 'EX');
+insert into 2009s1(userName, SubjectID, Grade) values('5050', 'ME19001', 'EX');
+
+insert into 2009s2(userName, SubjectID, Grade) values('5050', 'CS11001', 'EX');
+insert into 2009s2(userName, SubjectID, Grade) values('5050', 'CS19001', 'EX');
+insert into 2009s2(userName, SubjectID, Grade) values('5050', 'MA10002', 'EX');
+insert into 2009s2(userName, SubjectID, Grade) values('5050', 'PH11001', 'EX');
+insert into 2009s2(userName, SubjectID, Grade) values('5050', 'ME10001', 'EX');
+
+
+insert into 2010s1(userName, SubjectID, Grade) values('5050', 'MA20103', 'EX');
+insert into 2010s1(userName, SubjectID, Grade) values('5050', 'MA20101', 'EX');
+insert into 2010s1(userName, SubjectID, Grade) values('5050', 'MA21007', 'EX');
+insert into 2010s1(userName, SubjectID, Grade) values('5050', 'EV20001', 'EX');
+insert into 2010s1(userName, SubjectID, Grade) values('5050', 'HS20001', 'EX');
+
+
+insert into 2010s2(userName, SubjectID, Grade) values('5050', 'EC21101', 'EX');
+insert into 2010s2(userName, SubjectID, Grade) values('5050', 'MA20104', 'EX');
+insert into 2010s2(userName, SubjectID, Grade) values('5050', 'MA20013', 'EX');
+
+insert into 2011s1(userName, SubjectID, Grade) values('5050', 'MA31009', 'EX');
+insert into 2011s1(userName, SubjectID, Grade) values('5050', 'MA31011', 'A');
+insert into 2011s1(userName, SubjectID, Grade) values('5050', 'MA30003', 'EX');
+insert into 2011s1(userName, SubjectID, Grade) values('5050', 'MA31005', 'A');
+
+insert into 2011s2(userName, SubjectID) values('5050', 'MA30006');
+insert into 2011s2(userName, SubjectID) values('5050', 'MA41002');
+insert into 2011s2(userName, SubjectID) values('5050', 'MA30014');
 
