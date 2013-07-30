@@ -1,4 +1,4 @@
-This was my first java project. It is a simple interface for managing grades, mess bills etc.
+This was my first java project. It is a simple application for managing grades, mess bills etc.
 
 To run this you must have a mysql server running on your system.
 
