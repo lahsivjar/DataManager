@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DataManager" default="dist" basedir=".">
+
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+  <property name="lib" location="lib"/>
+
+  <target name="init" description="Initialize for compile">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory required for compile -->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <target name="compile" depends="init" description="Compile source files">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}" failonerror="true"/>
+  </target>
+
+  <target name="clean" description="Clean up">
+    <!-- Delete ${build} -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+  <target name="build" depends="clean,compile" description="Clean and compile source"/>
+
+  <target name="dist" depends="build" description="Generates the distribution">
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Generate jar file -->
+    <jar jarfile="${dist}/lib/DataManager-${DSTAMP}.jar" basedir="${build}">
+     <manifest>
+       <attribute name="Main-Class" value="login"/>
+       <attribute name="Class-Path" value="../../lib/mysql-connector-java-5.1.25-bin.jar"/>
+     </manifest>
+     <fileset dir="${lib}" includes="*.jar"/>
+    </jar>
+  </target>
+
+</project>
