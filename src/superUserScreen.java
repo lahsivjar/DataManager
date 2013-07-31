@@ -13,6 +13,8 @@ public class superUserScreen extends JFrame
     private JMenu manageTabs = new JMenu("Manage Tabs");
     private JMenu exitMenu = new JMenu("Exit");
 
+    private JButton enableBut;
+
     private JComboBox subjectID;
     private JComboBox subjectID2;
     private JComboBox departmentBox;
@@ -100,8 +102,13 @@ public class superUserScreen extends JFrame
 	exitMenu.add(logout);
 	exitMenu.add(exit);
 
-	if(!registerDB.getIsRegEnabled())
+	if(!registerDB.getIsRegEnabled()) {
 	    disable.setEnabled(false);
+            register.setEnabled(true);
+        }else {
+	    disable.setEnabled(true);
+            register.setEnabled(false);
+        }
 
 	newSuperUser.addActionListener(
 				       new ActionListener()
@@ -168,7 +175,6 @@ public class superUserScreen extends JFrame
 										    }
 										}
 										);
-						       newSuperUser.setEnabled(false);
 							   
 						   }
 					       catch(Exception ex)
@@ -186,11 +192,10 @@ public class superUserScreen extends JFrame
 				      {
 					  try
 					      {
-						  registerDB.getConnection();
-
 						  registerDB.deleteTable();
 						  registerDB.setIsRegEnabled(false);
 						  disable.setEnabled(false);
+                                                  register.setEnabled(true);
 					      }
 					  catch(Exception ex)
 					      {
@@ -213,8 +218,14 @@ public class superUserScreen extends JFrame
 						     gradeAllotment.superGrade("");
 						     subjectID = new JComboBox(gradeAllotment.getSubjectIDArray());
 						     tableForGrade = new JTable(gradeAllotment);
-						     
-						     tabbedPane.addTab("Grade Allotment", null, gradePanel, "Tab1");
+
+                                                     gradePanel.removeAll();
+                                                     String title = "Grade Allotment";
+						     tabbedPane.addTab(title, gradePanel);
+                                                     int index = tabbedPane.indexOfTab(title);
+                                                     tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                                     tabbedPane.setSelectedIndex(index);
+
 						     subjectID.addItemListener(
 									       new ItemListener()
 									       {
@@ -235,7 +246,6 @@ public class superUserScreen extends JFrame
 
 						     gradePanel.add(subjectID, BorderLayout.NORTH);
 						     gradePanel.add(new JScrollPane(tableForGrade), BorderLayout.CENTER);
-						     allotGrade.setEnabled(false);
 						 }
 					     catch(SQLException s)
 						 {
@@ -250,7 +260,13 @@ public class superUserScreen extends JFrame
 				     {
 					 public void actionPerformed(ActionEvent e)
 					 {
-					     tabbedPane.addTab("Add new Subject", null, subjectPanel, "Tab2");
+                                             subjectPanel.removeAll();
+                                             String title = "Add new Subject";
+					     tabbedPane.addTab(title, subjectPanel);
+                                             int index = tabbedPane.indexOfTab(title);
+                                             tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                             tabbedPane.setSelectedIndex(index);
+
 					     subIDLabel = new JLabel("SubjectID");
 					     subLabel = new JLabel("Subject");
 					     creditsLabel = new JLabel("Credits");
@@ -289,6 +305,7 @@ public class superUserScreen extends JFrame
 										      sub.setText("");
 										      credits.setText("");
 										      teacher.setText("");
+                                                                                      JOptionPane.showMessageDialog(superUserScreen.this, "Subject Added", "Successful", JOptionPane.INFORMATION_MESSAGE);
 										  }
 									      catch(Exception ex)
 										  {
@@ -297,7 +314,6 @@ public class superUserScreen extends JFrame
 									  }
 								      }
 								      );
-					     addSubject.setEnabled(false);
 					 }
 				     }
 				     );
@@ -311,11 +327,16 @@ public class superUserScreen extends JFrame
 					       {
 						   registerDB.getConnection();
 						   subjectID2 = new JComboBox(registerDB.getSubjectIDArray());
+                                                   enableBut = new JButton("Enable");
 						   subjectID2.setEnabled(true);
-						   registerDB.setIsRegEnabled(true);
 						   disable.setEnabled(true);
 
-						   tabbedPane.addTab("Enable Registration", null, registerPanel, "Tab3");
+                                                   registerPanel.removeAll();
+                                                   String title = "Enable Registration";
+						   tabbedPane.addTab(title, registerPanel);
+                                                   int index = tabbedPane.indexOfTab(title);
+                                                   tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                                   tabbedPane.setSelectedIndex(index);  
 
 						   registerTable = new JTable(registerDB);
 						   registerDB.addTable();
@@ -339,10 +360,26 @@ public class superUserScreen extends JFrame
 										  }
 									      }
 									      );
+                                                   enableBut.addActionListener(
+                                                                               new ActionListener()
+                                                                               {
+                                                                                    public void actionPerformed(ActionEvent a)
+                                                                                    {
+                                                                                         registerDB.setIsRegEnabled(true);
+                                                                                         enableBut.setEnabled(false);
+                                                                                         subjectID2.setEnabled(false);
+                                                                                    }
+                                                                               }
+                                                                               );
 
+                                                   registerPanel.setLayout(new BorderLayout());
+                                                   JScrollPane spane = new JScrollPane();
+                                                   registerPanel.add(spane);
 						   registerPanel.add(subjectID2, BorderLayout.NORTH);
 						   registerPanel.add(new JScrollPane(registerTable), BorderLayout.CENTER);
-						   register.setEnabled(false);
+                                                   registerPanel.add(enableBut, BorderLayout.SOUTH);
+
+                                                   register.setEnabled(false);
 					       }
 					   catch(Exception s)
 					       {
@@ -362,12 +399,16 @@ public class superUserScreen extends JFrame
 					     {
 						 statusDB.getConnection();
 
-						 tabbedPane.addTab("Registration Status", null, statusPanel, "Tab4");
+                                                 statusPanel.removeAll();
+                                                 String title = "Registration Status";
+						 tabbedPane.addTab(title, statusPanel);
+                                                 int index = tabbedPane.indexOfTab(title);
+                                                 tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                                 tabbedPane.setSelectedIndex(index);
 
 						 statusTable = new JTable(statusDB);
 						 statusDB.getStatusTable();
 						 statusPanel.add(new JScrollPane(statusTable), BorderLayout.CENTER);
-						 status.setEnabled(false);
 					     }
 					 catch(Exception s)
 					     {
@@ -383,8 +424,6 @@ public class superUserScreen extends JFrame
 					    public void actionPerformed(ActionEvent e)
 					    {
 						tabbedPane.removeAll();
-						allotGrade.setEnabled(true);
-						addSubject.setEnabled(true);
 					    }
 					}
 					);					  

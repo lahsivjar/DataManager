@@ -316,7 +316,7 @@ public class accessDB extends AbstractTableModel
 	createNewSemester = connection.prepareStatement("Create table "+currentSemester+" ("+
 							"userName varchar(12) not null,"+
 							" SubjectID varchar(10) not null,"+
-							" Grade varchar(2) not null,"+
+							" Grade varchar(2),"+
 							" foreign key(userName) references login(userName),"+
 							" foreign key(SubjectID) references allSubjects(SubjectID))");
 

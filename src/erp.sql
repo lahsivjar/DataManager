@@ -35,7 +35,7 @@ create table 2009s1
 (
 	userName varchar(12) not null,
 	SubjectID varchar(10) not null,
- 	Grade varchar(2) not null,
+ 	Grade varchar(2),
 	foreign key(userName) references login(userName),
 	foreign key(SubjectID) references allSubjects(SubjectID)
 );
@@ -44,7 +44,7 @@ create table 2009s2
 (
 	userName varchar(12) not null,
 	SubjectID varchar(10) not null,
- 	Grade varchar(2) not null,
+ 	Grade varchar(2),
 	foreign key(userName) references login(userName),
 	foreign key(SubjectID) references allSubjects(SubjectID)
 );
@@ -53,7 +53,7 @@ create table 2010s1
 (
 	userName varchar(12) not null,
 	SubjectID varchar(10) not null,
- 	Grade varchar(2) not null,
+ 	Grade varchar(2),
 	foreign key(userName) references login(userName),
 	foreign key(SubjectID) references allSubjects(SubjectID)
 );
@@ -62,7 +62,7 @@ create table 2010s2
 (
 	userName varchar(12) not null,
 	SubjectID varchar(10) not null,
- 	Grade varchar(2) not null,
+ 	Grade varchar(2),
 	foreign key(userName) references login(userName),
 	foreign key(SubjectID) references allSubjects(SubjectID)
 );
@@ -71,7 +71,7 @@ create table 2011s1
 (
 	userName varchar(12) not null,
 	SubjectID varchar(10) not null,
- 	Grade varchar(2) not null,
+ 	Grade varchar(2),
 	foreign key(userName) references login(userName),
 	foreign key(SubjectID) references allSubjects(SubjectID)
 );
@@ -80,7 +80,7 @@ create table 2011s2
 (
 	userName varchar(12) not null,
 	SubjectID varchar(10) not null,
- 	Grade varchar(2) not null,
+ 	Grade varchar(2),
 	foreign key(userName) references login(userName),
 	foreign key(SubjectID) references allSubjects(SubjectID)
 );
@@ -89,7 +89,14 @@ create table utility
 (
 	column1 varchar(30) not null,
 	column2 varchar(30) not null,
-	isRegEnabled varchar(5) not null
+	isRegEnabled varchar(5) not null default 'false'
+);
+
+create table registrationStatus
+(
+	userName varchar(12) not null,
+	status varchar(2) not null default 'N',
+	foreign key(userName) references login(userName)
 );
 
 insert into utility(column1, column2) values('currentSemester', '2011s2');
