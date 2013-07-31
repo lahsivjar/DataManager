@@ -82,7 +82,12 @@ public class userScreen extends JFrame
 				   {
 				       public void actionPerformed(ActionEvent e)
 				       {
-					   tabbedPane.addTab("Register", null, registerPanel, "Tab1");
+                                           registerPanel.removeAll();
+                                           String title = "Register";
+					   tabbedPane.addTab(title, registerPanel);
+                                           int index = tabbedPane.indexOfTab(title);
+                                           tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                           tabbedPane.setSelectedIndex(index);
 
 					   try
 					       {
@@ -171,9 +176,14 @@ public class userScreen extends JFrame
 							 year++;
 						     }while(true);
 
-						 tabbedPane.addTab("Semester", null, gradeButtonPanel, "Tab2");
+                                                 gradeButtonPanel.removeAll();
+                                                 String title = "Semester";
+						 tabbedPane.addTab(title, gradeButtonPanel);
+                                                 int index = tabbedPane.indexOfTab(title);
+                                                 tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                                 tabbedPane.setSelectedIndex(index);
+
 						 gradeButtonPanel.add(verticalBox, BorderLayout.CENTER);
-						 grades.setEnabled(false);
 
 						 for(int count = 1;count<i;count++)
 						     {
@@ -184,7 +194,12 @@ public class userScreen extends JFrame
 											      {
 												  public void actionPerformed(ActionEvent e)
 												  {
-												      tabbedPane.addTab("Grades", null, scrollGradePanel, "Tab3");
+                                                                                                      gradePanel.removeAll();
+                                                                                                      String title = "Grades";
+												      tabbedPane.addTab(title,  scrollGradePanel);
+                                                                                                      int index = tabbedPane.indexOfTab(title);
+                                                                                                      tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                                                                                      tabbedPane.setSelectedIndex(index);
 
 												      try
 													  {
@@ -217,7 +232,13 @@ public class userScreen extends JFrame
 				      {
 					  public void actionPerformed(ActionEvent e)
 					  {
-					      tabbedPane.addTab("Profile", null, profilePanel, "Tab4");
+                                              profilePanel.removeAll();
+                                              String title = "Profile";
+					      tabbedPane.addTab(title, profilePanel);
+                                              int index = tabbedPane.indexOfTab(title);
+                                              tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                              tabbedPane.setSelectedIndex(index);
+
 					      try
 						  {
 						      accessDB database = new accessDB();
@@ -280,8 +301,6 @@ public class userScreen extends JFrame
 						      verticalBox2.add(add);
 
 						      profilePanel.add(verticalBox2, BorderLayout.CENTER);
-
-						      profileInfo.setEnabled(false);
 						  }
 					      catch(Exception s)
 						  {
@@ -301,8 +320,13 @@ public class userScreen extends JFrame
 						  tableModelCourse.getConnection();
 
 						  String currentSemester = tableModelCourse.getCurrentSemester();
-						  
-						  tabbedPane.addTab("Courses", null, coursePanel, "Tab5");
+						  coursePanel.removeAll();
+                                                  String title = "Courses";
+						  tabbedPane.addTab(title, coursePanel);
+                                                  int index = tabbedPane.indexOfTab(title);
+                                                  tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                                                  tabbedPane.setSelectedIndex(index);
+
 						  JTable tableForCourses = new JTable(tableModelCourse);
 
 						  try
@@ -314,7 +338,6 @@ public class userScreen extends JFrame
 							  JOptionPane.showMessageDialog(userScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 						      }
 						  coursePanel.add(new JScrollPane(tableForCourses), BorderLayout.CENTER);
-						  courses.setEnabled(false);
 					      }
 					  catch(SQLException s)
 					      {
@@ -334,9 +357,6 @@ public class userScreen extends JFrame
 					    public void actionPerformed(ActionEvent e)
 					    {
 						tabbedPane.removeAll();
-						courses.setEnabled(true);
-						profileInfo.setEnabled(true);
-						grades.setEnabled(true);
 					    }
 					}
 					);
