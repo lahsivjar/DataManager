@@ -44,381 +44,381 @@ public class userScreen extends JFrame
     public userScreen(String user)
     {
 
-	super("Welcome to ERP System");
+        super("Welcome to ERP System");
 
-	setUserName(user);
-	tableModelCourse = new accessDB();
-	tableModelGrade = new accessDB();
-	registerDB = new accessDB();
-	try
-	    {
-		registerDB.getConnection();
-	    }
-	catch(SQLException s)
-	    {
-		s.printStackTrace();
-	    }
+        setUserName(user);
+        tableModelCourse = new accessDB();
+        tableModelGrade = new accessDB();
+        registerDB = new accessDB();
+        try
+        {
+            registerDB.getConnection();
+        }
+        catch(SQLException s)
+        {
+            s.printStackTrace();
+        }
 
-	setJMenuBar(menuBar);
+        setJMenuBar(menuBar);
 
-	registerMenu.add(register);
+        registerMenu.add(register);
 
-	viewInfoMenu.add(grades);
-	viewInfoMenu.add(profileInfo);
-	viewInfoMenu.add(courses);
+        viewInfoMenu.add(grades);
+        viewInfoMenu.add(profileInfo);
+        viewInfoMenu.add(courses);
 
-	manageTabs.add(removeAllTabs);
+        manageTabs.add(removeAllTabs);
 
-	aboutMenu.add(about);
+        aboutMenu.add(about);
 
-	exitMenu.add(logout);
-	exitMenu.add(exit);
-  
-	if(!registerDB.getIsRegEnabled()||registerDB.getRegistrationStatus(userName))
-	    register.setEnabled(false);
+        exitMenu.add(logout);
+        exitMenu.add(exit);
 
-	register.addActionListener(
-				   new ActionListener()
-				   {
-				       public void actionPerformed(ActionEvent e)
-				       {
-                                           registerPanel.removeAll();
-                                           String title = "Register";
-					   tabbedPane.addTab(title, registerPanel);
-                                           int index = tabbedPane.indexOfTab(title);
-                                           tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                           tabbedPane.setSelectedIndex(index);
+        if(!registerDB.getIsRegEnabled()||registerDB.getRegistrationStatus(userName))
+            register.setEnabled(false);
 
-					   try
-					       {
-						   registerDB.getConnection();
-						   registerTable = new JTable(registerDB);
-						   registerButton = new JButton("Register");
+        register.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                registerPanel.removeAll();
+                String title = "Register";
+                tabbedPane.addTab(title, registerPanel);
+                int index = tabbedPane.indexOfTab(title);
+                tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                tabbedPane.setSelectedIndex(index);
 
-						   registerDB.displayRegisterTable();
+                try
+                {
+                registerDB.getConnection();
+                registerTable = new JTable(registerDB);
+                registerButton = new JButton("Register");
 
-						   registerButton.addActionListener(
-										    new ActionListener()
-										    {
-											public void actionPerformed(ActionEvent a)
-											{
-											    try
-												{
-												    registerDB.registerStudent(userName);
-												    JOptionPane.showMessageDialog(userScreen.this, "Registration Successfull", "Congrats", JOptionPane.INFORMATION_MESSAGE);
-												    registerDB.setRegistrationStatus(userName);
-												    registerButton.setEnabled(false);
-												}
-											    catch(Exception ex)
-												{
-												    JOptionPane.showMessageDialog(userScreen.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-												}
-											}
-										    }
-										    );
-					       }
-					   catch(SQLException s)
-					       {
-						   JOptionPane.showMessageDialog(userScreen.this, s.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-					       }
-					   registerPanel.add(registerButton, BorderLayout.NORTH);
-					   registerPanel.add(new JScrollPane(registerTable), BorderLayout.CENTER);
-					   register.setEnabled(false);
-				       }
-				   }
-				   );
+                registerDB.displayRegisterTable();
 
-	grades.addActionListener(
-				 new ActionListener()
-				 {
-				     public void actionPerformed(ActionEvent e)
-				     {
-					 int i = 1;
-					 final JButton buttonArray[] = new JButton[20];
-					 try
-					     {
-						 tableModelGrade.getConnection();
+                registerButton.addActionListener(
+                    new ActionListener()
+                    {
+                    public void actionPerformed(ActionEvent a)
+                    {
+                    try
+                    {
+                    registerDB.registerStudent(userName);
+                    JOptionPane.showMessageDialog(userScreen.this, "Registration Successfull", "Congrats", JOptionPane.INFORMATION_MESSAGE);
+                    registerDB.setRegistrationStatus(userName);
+                    registerButton.setEnabled(false);
+                    }
+                    catch(Exception ex)
+                    {
+                    JOptionPane.showMessageDialog(userScreen.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    }
+                    }
+                    );
+                }
+        catch(SQLException s)
+        {
+            JOptionPane.showMessageDialog(userScreen.this, s.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        registerPanel.add(registerButton, BorderLayout.NORTH);
+        registerPanel.add(new JScrollPane(registerTable), BorderLayout.CENTER);
+        register.setEnabled(false);
+                }
+                }
+        );
 
-						 String yoa = tableModelGrade.getyoa(userName);
-						 int year = Integer.parseInt(yoa);
-						 String currentSemester = tableModelGrade.getCurrentSemester();
-						 Box verticalBox = Box.createVerticalBox();
+        grades.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                int i = 1;
+                final JButton buttonArray[] = new JButton[20];
+                try
+                {
+                tableModelGrade.getConnection();
 
-						 String s1, s2;
-						 int temp = currentSemester.indexOf("s");
-						 temp = Integer.parseInt(currentSemester.substring(0, temp));
-						 
-						 do
-						     {
-							 if(year>temp)
-							     break;
+                String yoa = tableModelGrade.getyoa(userName);
+                int year = Integer.parseInt(yoa);
+                String currentSemester = tableModelGrade.getCurrentSemester();
+                Box verticalBox = Box.createVerticalBox();
 
-							 s1 = year + "s1";
-					
-							 buttonArray[i] = new JButton(s1);
-							 verticalBox.add(buttonArray[i]);
-							 verticalBox.add(Box.createVerticalStrut(10));
-							 i++;
+                String s1, s2;
+                int temp = currentSemester.indexOf("s");
+                temp = Integer.parseInt(currentSemester.substring(0, temp));
 
-							 if(currentSemester.compareTo(s1)==0)
-							     break;
+                do
+                {
+                    if(year>temp)
+                        break;
 
-							 s2 = year + "s2";
-				       
-							 buttonArray[i] = new JButton(s2);
-							 verticalBox.add(buttonArray[i]);
-							 verticalBox.add(Box.createVerticalStrut(10));
-							 i++;  
+                    s1 = year + "s1";
 
-							 if(currentSemester.compareTo(s2)==0)
-							     break;
-			 
-							 year++;
-						     }while(true);
+                    buttonArray[i] = new JButton(s1);
+                    verticalBox.add(buttonArray[i]);
+                    verticalBox.add(Box.createVerticalStrut(10));
+                    i++;
 
-                                                 gradeButtonPanel.removeAll();
-                                                 String title = "Semester";
-						 tabbedPane.addTab(title, gradeButtonPanel);
-                                                 int index = tabbedPane.indexOfTab(title);
-                                                 tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                                 tabbedPane.setSelectedIndex(index);
+                    if(currentSemester.compareTo(s1)==0)
+                        break;
 
-						 gradeButtonPanel.add(verticalBox, BorderLayout.CENTER);
+                    s2 = year + "s2";
 
-						 for(int count = 1;count<i;count++)
-						     {
-							 final int tempCount = count;
-							 tableForGrades = new JTable(tableModelGrade);
-							 buttonArray[count].addActionListener(
-											      new ActionListener()
-											      {
-												  public void actionPerformed(ActionEvent e)
-												  {
-                                                                                                      gradePanel.removeAll();
-                                                                                                      String title = "Grades";
-												      tabbedPane.addTab(title,  scrollGradePanel);
-                                                                                                      int index = tabbedPane.indexOfTab(title);
-                                                                                                      tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                                                                                      tabbedPane.setSelectedIndex(index);
+                    buttonArray[i] = new JButton(s2);
+                    verticalBox.add(buttonArray[i]);
+                    verticalBox.add(Box.createVerticalStrut(10));
+                    i++;  
 
-												      try
-													  {
-													      tableModelGrade.gradeTable(userName, e.getActionCommand());
-													      gradePanel.add(new JScrollPane(tableForGrades), BorderLayout.CENTER);
-													  }
-												      catch(Exception ex)
-													  {
-													      JOptionPane.showMessageDialog(userScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-													  }
-												  }
-											      }
-											      );
-						     }				       
-					     }
-					 catch(SQLException s)
-					     {
-						 JOptionPane.showMessageDialog(userScreen.this, s.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-					     }
-					 catch(IllegalStateException is)
-					     {
-						 JOptionPane.showMessageDialog(userScreen.this, is.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-					     }
-				     }
-				 }
-				 );
+                    if(currentSemester.compareTo(s2)==0)
+                        break;
 
-	profileInfo.addActionListener(
-				      new ActionListener()
-				      {
-					  public void actionPerformed(ActionEvent e)
-					  {
-                                              profilePanel.removeAll();
-                                              String title = "Profile";
-					      tabbedPane.addTab(title, profilePanel);
-                                              int index = tabbedPane.indexOfTab(title);
-                                              tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                              tabbedPane.setSelectedIndex(index);
+                    year++;
+                }while(true);
 
-					      try
-						  {
-						      accessDB database = new accessDB();
-						      database.getConnection();
+        gradeButtonPanel.removeAll();
+        String title = "Semester";
+        tabbedPane.addTab(title, gradeButtonPanel);
+        int index = tabbedPane.indexOfTab(title);
+        tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+        tabbedPane.setSelectedIndex(index);
 
-						      JLabel nameLabel = new JLabel("Name: ");; 
-						      JLabel rollLabel = new JLabel("Roll Number: ");
-						      JLabel dobLabel = new JLabel("Date Of Birth: ");
-						      JLabel yoaLabel = new JLabel("Year Of Admission: ");
-						      JLabel depLabel = new JLabel("Department: ");
-						      JLabel addLabel = new JLabel("Address: ");
+        gradeButtonPanel.add(verticalBox, BorderLayout.CENTER);
 
-						      Box verticalBox1 = Box.createVerticalBox();
-						      verticalBox1.add(Box.createVerticalStrut(20));
-						      verticalBox1.add(Box.createVerticalGlue());
-						      verticalBox1.add(nameLabel);
-						      verticalBox1.add(Box.createVerticalGlue());
-						      verticalBox1.add(Box.createVerticalStrut(10));
-						      verticalBox1.add(rollLabel);
-						      verticalBox1.add(Box.createVerticalGlue());
-						      verticalBox1.add(Box.createVerticalStrut(10));
-						      verticalBox1.add(dobLabel);
-						      verticalBox1.add(Box.createVerticalGlue());
-						      verticalBox1.add(Box.createVerticalStrut(10));
-						      verticalBox1.add(yoaLabel);
-						      verticalBox1.add(Box.createVerticalGlue());
-						      verticalBox1.add(Box.createVerticalStrut(10));
-						      verticalBox1.add(depLabel);
-						      verticalBox1.add(Box.createVerticalGlue());
-						      verticalBox1.add(Box.createVerticalStrut(10));
-						      verticalBox1.add(addLabel);
+        for(int count = 1;count<i;count++)
+        {
+            final int tempCount = count;
+            tableForGrades = new JTable(tableModelGrade);
+            buttonArray[count].addActionListener(
+                    new ActionListener()
+                    {
+                    public void actionPerformed(ActionEvent e)
+                    {
+                    gradePanel.removeAll();
+                    String title = "Grades";
+                    tabbedPane.addTab(title,  scrollGradePanel);
+                    int index = tabbedPane.indexOfTab(title);
+                    tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                    tabbedPane.setSelectedIndex(index);
 
-						      profilePanel.add(verticalBox1, BorderLayout.CENTER);
+                    try
+                    {
+                    tableModelGrade.gradeTable(userName, e.getActionCommand());
+                    gradePanel.add(new JScrollPane(tableForGrades), BorderLayout.CENTER);
+                    }
+                    catch(Exception ex)
+                    {
+                    JOptionPane.showMessageDialog(userScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    }
+                    }
+            );
+        }				       
+                }
+        catch(SQLException s)
+        {
+            JOptionPane.showMessageDialog(userScreen.this, s.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IllegalStateException is)
+        {
+            JOptionPane.showMessageDialog(userScreen.this, is.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+                }
+                }
+        );
 
-						      JLabel name = new JLabel(database.getName(userName));
-						      JLabel roll = new JLabel(userName);
-						      JLabel dob = new JLabel(database.getdob(userName));
-						      JLabel yoa = new JLabel(database.getyoa(userName));
-						      JLabel dep = new JLabel(database.getDep(userName));
-						      JLabel add = new JLabel(database.getAddress(userName));
+        profileInfo.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                profilePanel.removeAll();
+                String title = "Profile";
+                tabbedPane.addTab(title, profilePanel);
+                int index = tabbedPane.indexOfTab(title);
+                tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                tabbedPane.setSelectedIndex(index);
 
-						      Box verticalBox2 = Box.createVerticalBox();
-						      verticalBox2.add(Box.createVerticalStrut(20));
-						      verticalBox2.add(Box.createVerticalGlue());
-						      verticalBox2.add(name);
-						      verticalBox2.add(Box.createVerticalGlue());
-						      verticalBox2.add(Box.createVerticalStrut(10));
-						      verticalBox2.add(roll);
-						      verticalBox2.add(Box.createVerticalGlue());
-						      verticalBox2.add(Box.createVerticalStrut(10));
-						      verticalBox2.add(dob);
-						      verticalBox2.add(Box.createVerticalGlue());
-						      verticalBox2.add(Box.createVerticalStrut(10));
-						      verticalBox2.add(yoa);
-						      verticalBox2.add(Box.createVerticalGlue());
-						      verticalBox2.add(Box.createVerticalStrut(10));
-						      verticalBox2.add(dep);
-						      verticalBox2.add(Box.createVerticalGlue());
-						      verticalBox2.add(Box.createVerticalStrut(10));
-						      verticalBox2.add(add);
+                try
+                {
+                accessDB database = new accessDB();
+                database.getConnection();
 
-						      profilePanel.add(verticalBox2, BorderLayout.CENTER);
-						  }
-					      catch(Exception s)
-						  {
-						      JOptionPane.showMessageDialog(userScreen.this, s.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-						  }						  
-					  }
-				      }
-				      );
+                JLabel nameLabel = new JLabel("Name: ");; 
+                JLabel rollLabel = new JLabel("Roll Number: ");
+                JLabel dobLabel = new JLabel("Date Of Birth: ");
+                JLabel yoaLabel = new JLabel("Year Of Admission: ");
+                JLabel depLabel = new JLabel("Department: ");
+                JLabel addLabel = new JLabel("Address: ");
 
-	courses.addActionListener(
-				  new ActionListener()
-				  {
-				      public void actionPerformed(ActionEvent e)
-				      {
-					  try
-					      {
-						  tableModelCourse.getConnection();
+                Box verticalBox1 = Box.createVerticalBox();
+                verticalBox1.add(Box.createVerticalStrut(20));
+                verticalBox1.add(Box.createVerticalGlue());
+                verticalBox1.add(nameLabel);
+                verticalBox1.add(Box.createVerticalGlue());
+                verticalBox1.add(Box.createVerticalStrut(10));
+                verticalBox1.add(rollLabel);
+                verticalBox1.add(Box.createVerticalGlue());
+                verticalBox1.add(Box.createVerticalStrut(10));
+                verticalBox1.add(dobLabel);
+                verticalBox1.add(Box.createVerticalGlue());
+                verticalBox1.add(Box.createVerticalStrut(10));
+                verticalBox1.add(yoaLabel);
+                verticalBox1.add(Box.createVerticalGlue());
+                verticalBox1.add(Box.createVerticalStrut(10));
+                verticalBox1.add(depLabel);
+                verticalBox1.add(Box.createVerticalGlue());
+                verticalBox1.add(Box.createVerticalStrut(10));
+                verticalBox1.add(addLabel);
 
-						  String currentSemester = tableModelCourse.getCurrentSemester();
-						  coursePanel.removeAll();
-                                                  String title = "Courses";
-						  tabbedPane.addTab(title, coursePanel);
-                                                  int index = tabbedPane.indexOfTab(title);
-                                                  tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                                  tabbedPane.setSelectedIndex(index);
+                profilePanel.add(verticalBox1, BorderLayout.CENTER);
 
-						  JTable tableForCourses = new JTable(tableModelCourse);
+                JLabel name = new JLabel(database.getName(userName));
+                JLabel roll = new JLabel(userName);
+                JLabel dob = new JLabel(database.getdob(userName));
+                JLabel yoa = new JLabel(database.getyoa(userName));
+                JLabel dep = new JLabel(database.getDep(userName));
+                JLabel add = new JLabel(database.getAddress(userName));
 
-						  try
-						      {
-							  tableModelCourse.displayCourseTable(userName, currentSemester);
-						      }
-						  catch(Exception ex)
-						      {
-							  JOptionPane.showMessageDialog(userScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-						      }
-						  coursePanel.add(new JScrollPane(tableForCourses), BorderLayout.CENTER);
-					      }
-					  catch(SQLException s)
-					      {
-						  JOptionPane.showMessageDialog(null, s.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-					      }
-					  catch(IllegalStateException is)
-					      {
-						  JOptionPane.showMessageDialog(null, is.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-					      }
-				      }
-				  }
-				  );
+                Box verticalBox2 = Box.createVerticalBox();
+                verticalBox2.add(Box.createVerticalStrut(20));
+                verticalBox2.add(Box.createVerticalGlue());
+                verticalBox2.add(name);
+                verticalBox2.add(Box.createVerticalGlue());
+                verticalBox2.add(Box.createVerticalStrut(10));
+                verticalBox2.add(roll);
+                verticalBox2.add(Box.createVerticalGlue());
+                verticalBox2.add(Box.createVerticalStrut(10));
+                verticalBox2.add(dob);
+                verticalBox2.add(Box.createVerticalGlue());
+                verticalBox2.add(Box.createVerticalStrut(10));
+                verticalBox2.add(yoa);
+                verticalBox2.add(Box.createVerticalGlue());
+                verticalBox2.add(Box.createVerticalStrut(10));
+                verticalBox2.add(dep);
+                verticalBox2.add(Box.createVerticalGlue());
+                verticalBox2.add(Box.createVerticalStrut(10));
+                verticalBox2.add(add);
 
-	removeAllTabs.addActionListener(
-					new ActionListener()
-					{
-					    public void actionPerformed(ActionEvent e)
-					    {
-						tabbedPane.removeAll();
-					    }
-					}
-					);
-	about.addActionListener(
-				new ActionListener()
-				{
-				    public void actionPerformed(ActionEvent e)
-				    {
-					String aboutERP = "The ERP Project\n"+"     By GomuNingen";
-					JOptionPane.showMessageDialog(userScreen.this, aboutERP, "About ERP", JOptionPane.PLAIN_MESSAGE); 
-				    }
-				}
-				);
+                profilePanel.add(verticalBox2, BorderLayout.CENTER);
+                }
+        catch(Exception s)
+        {
+            JOptionPane.showMessageDialog(userScreen.this, s.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }						  
+                }
+                }
+        );
 
-	exit.addActionListener(
-			       new ActionListener()
-			       {
-				   public void actionPerformed(ActionEvent e)
-				   {
-				       dispose();
-				   }
-			       }
-			       );
+        courses.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                try
+                {
+                tableModelCourse.getConnection();
 
-	logout.addActionListener(
-				 new ActionListener()
-				 {
-				     public void actionPerformed(ActionEvent e)
-				     {
-					 new login();
-					 dispose();
-				     }
-				 }
-				 );
+                String currentSemester = tableModelCourse.getCurrentSemester();
+                coursePanel.removeAll();
+                String title = "Courses";
+                tabbedPane.addTab(title, coursePanel);
+                int index = tabbedPane.indexOfTab(title);
+                tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                tabbedPane.setSelectedIndex(index);
 
-	menuBar.add(registerMenu);
-	menuBar.add(viewInfoMenu);
-	menuBar.add(manageTabs);
-	menuBar.add(aboutMenu);
-	menuBar.add(exitMenu);
+                JTable tableForCourses = new JTable(tableModelCourse);
 
-	add(tabbedPane);
+                try
+                {
+                    tableModelCourse.displayCourseTable(userName, currentSemester);
+                }
+                catch(Exception ex)
+                {
+                    JOptionPane.showMessageDialog(userScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                coursePanel.add(new JScrollPane(tableForCourses), BorderLayout.CENTER);
+                }
+        catch(SQLException s)
+        {
+            JOptionPane.showMessageDialog(null, s.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IllegalStateException is)
+        {
+            JOptionPane.showMessageDialog(null, is.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+                }
+                }
+        );
 
-	setSize(500, 500);
-	setVisible(true);
-	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        removeAllTabs.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                tabbedPane.removeAll();
+                }
+                }
+                );
+        about.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                String aboutERP = "The ERP Project\n"+"     By GomuNingen";
+                JOptionPane.showMessageDialog(userScreen.this, aboutERP, "About ERP", JOptionPane.PLAIN_MESSAGE); 
+                }
+                }
+                );
 
-	addWindowListener(
-			  new WindowAdapter()
-			  {
-			      public void windowClosed(WindowEvent e)
-			      {
-				  tableModelGrade.disconnectFromDatabase();
-				  tableModelCourse.disconnectFromDatabase();
-				  registerDB.disconnectFromDatabase();
-			      }
-			  }
-			  );
+        exit.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                dispose();
+                }
+                }
+                );
+
+        logout.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                new login();
+                dispose();
+                }
+                }
+                );
+
+        menuBar.add(registerMenu);
+        menuBar.add(viewInfoMenu);
+        menuBar.add(manageTabs);
+        menuBar.add(aboutMenu);
+        menuBar.add(exitMenu);
+
+        add(tabbedPane);
+
+        setSize(500, 500);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        addWindowListener(
+                new WindowAdapter()
+                {
+                public void windowClosed(WindowEvent e)
+                {
+                tableModelGrade.disconnectFromDatabase();
+                tableModelCourse.disconnectFromDatabase();
+                registerDB.disconnectFromDatabase();
+                }
+                }
+                );
     }
 
     public void setUserName(String user)
     {
-	userName = user;
+        userName = user;
     }
 }

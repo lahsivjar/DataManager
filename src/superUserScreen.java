@@ -70,425 +70,425 @@ public class superUserScreen extends JFrame
 
     public superUserScreen()
     {
-	super("Super User Window");
+        super("Super User Window");
 
-	gradeAllotment = new accessDB();
-	registerDB = new accessDB();
-	statusDB = new accessDB();
+        gradeAllotment = new accessDB();
+        registerDB = new accessDB();
+        statusDB = new accessDB();
 
-	gradeAllotment.setSuperUser(true);
+        gradeAllotment.setSuperUser(true);
 
-	try
-	    {
-		registerDB.getConnection();
-	    }
-	catch(SQLException s)
-	    {
-		s.printStackTrace();
-	    }
+        try
+        {
+            registerDB.getConnection();
+        }
+        catch(SQLException s)
+        {
+            s.printStackTrace();
+        }
 
-	setJMenuBar(menuBar);
+        setJMenuBar(menuBar);
 
-	gradeMenu.add(allotGrade);
+        gradeMenu.add(allotGrade);
 
-	optionsMenu.add(newSuperUser);
-	optionsMenu.add(addSubject);
-	optionsMenu.add(register);
-	optionsMenu.add(status);
-	optionsMenu.add(disable);
+        optionsMenu.add(newSuperUser);
+        optionsMenu.add(addSubject);
+        optionsMenu.add(register);
+        optionsMenu.add(status);
+        optionsMenu.add(disable);
 
-	manageTabs.add(removeAllTabs);
+        manageTabs.add(removeAllTabs);
 
-	exitMenu.add(logout);
-	exitMenu.add(exit);
+        exitMenu.add(logout);
+        exitMenu.add(exit);
 
-	if(!registerDB.getIsRegEnabled()) {
-	    disable.setEnabled(false);
+        if(!registerDB.getIsRegEnabled()) {
+            disable.setEnabled(false);
             register.setEnabled(true);
         }else {
-	    disable.setEnabled(true);
+            disable.setEnabled(true);
             register.setEnabled(false);
         }
 
-	newSuperUser.addActionListener(
-				       new ActionListener()
-				       {
-					   public void actionPerformed(ActionEvent e)
-					   {
-					       try
-						   {
-						       registerDB.getConnection();
+        newSuperUser.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                try
+                {
+                registerDB.getConnection();
 
-						       tabbedPane.addTab("Add SuperUser", null, newUserPanel, "Add new superUser");
+                tabbedPane.addTab("Add SuperUser", null, newUserPanel, "Add new superUser");
 
-						       userLabel = new JLabel("UserName: ");
-						       passLabel = new JLabel("Password: ");
-						       confirmLabel = new JLabel("Confirm Password: ");
-						       departmentLabel = new JLabel("Department: ");
+                userLabel = new JLabel("UserName: ");
+                passLabel = new JLabel("Password: ");
+                confirmLabel = new JLabel("Confirm Password: ");
+                departmentLabel = new JLabel("Department: ");
 
-						       userField = new JTextField(20);
-						       passField = new JPasswordField(20);
-						       confirmField = new JPasswordField(20);
-						       departmentBox = new JComboBox(departmentName);
+                userField = new JTextField(20);
+                passField = new JPasswordField(20);
+                confirmField = new JPasswordField(20);
+                departmentBox = new JComboBox(departmentName);
 
-						       submit = new JButton("Submit");
+                submit = new JButton("Submit");
 
-						       addComponent(userLabel, 0, 0, 1, 1, 1);
-						       addComponent(userField, 0, 1, 1, 1, 1);
-						       addComponent(passLabel, 1, 0, 1, 1, 1);
-						       addComponent(passField, 1, 1, 1, 1, 1);
-						       addComponent(confirmLabel, 2, 0, 1, 1, 1);
-						       addComponent(confirmField, 2, 1, 1, 1, 1);
-						       addComponent(departmentLabel, 3, 0, 1, 1, 1);
-						       addComponent(departmentBox, 3, 1, 1, 1, 1);
-						       addComponent(submit, 4, 0, 2, 1, 1);
+                addComponent(userLabel, 0, 0, 1, 1, 1);
+                addComponent(userField, 0, 1, 1, 1, 1);
+                addComponent(passLabel, 1, 0, 1, 1, 1);
+                addComponent(passField, 1, 1, 1, 1, 1);
+                addComponent(confirmLabel, 2, 0, 1, 1, 1);
+                addComponent(confirmField, 2, 1, 1, 1, 1);
+                addComponent(departmentLabel, 3, 0, 1, 1, 1);
+                addComponent(departmentBox, 3, 1, 1, 1, 1);
+                addComponent(submit, 4, 0, 2, 1, 1);
 
-						       submit.addActionListener(
-										new ActionListener()
-										{
-										    public void actionPerformed(ActionEvent e)
-										    {								       
-											String user = userField.getText();
-											String pass = passField.getText();
-											String confirm = confirmField.getText();
-											String dep = (String)departmentBox.getSelectedItem();
-											if(user.length()!=0&&pass.length()!=0&&dep.length()!=0)
-											    {
-												if(pass.compareTo(confirm)==0)
-												    {
-													try
-													    {
-														registerDB.superUserEntry(user, pass, dep);
-														JOptionPane.showMessageDialog(superUserScreen.this, "Registration Successfull", "Congrats", JOptionPane.INFORMATION_MESSAGE);
-														submit.setEnabled(false);
-													    }
-													catch(SQLException ex)
-													    {
-														JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-													    }
-												    }
-												else
-												    JOptionPane.showMessageDialog(superUserScreen.this, "Password do not match", "ERROR", JOptionPane.ERROR_MESSAGE);
-											    }
-											else
-											    JOptionPane.showMessageDialog(superUserScreen.this, "Vacant Field(s)", "Error", JOptionPane.ERROR_MESSAGE);
-										    }
-										}
-										);
-							   
-						   }
-					       catch(Exception ex)
-						   {
-						       JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-						   }
-					   }
-				       }
-				       );
+                submit.addActionListener(
+                        new ActionListener()
+                        {
+                        public void actionPerformed(ActionEvent e)
+                        {								       
+                        String user = userField.getText();
+                        String pass = passField.getText();
+                        String confirm = confirmField.getText();
+                        String dep = (String)departmentBox.getSelectedItem();
+                        if(user.length()!=0&&pass.length()!=0&&dep.length()!=0)
+                        {
+                        if(pass.compareTo(confirm)==0)
+                        {
+                        try
+                        {
+                        registerDB.superUserEntry(user, pass, dep);
+                        JOptionPane.showMessageDialog(superUserScreen.this, "Registration Successfull", "Congrats", JOptionPane.INFORMATION_MESSAGE);
+                        submit.setEnabled(false);
+                        }
+                        catch(SQLException ex)
+                        {
+                            JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        }
+                        else
+                            JOptionPane.showMessageDialog(superUserScreen.this, "Password do not match", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else
+                            JOptionPane.showMessageDialog(superUserScreen.this, "Vacant Field(s)", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        }
+                );
 
-	disable.addActionListener(
-				  new ActionListener()
-				  {
-				      public void actionPerformed(ActionEvent e)
-				      {
-					  try
-					      {
-						  registerDB.deleteTable();
-						  registerDB.setIsRegEnabled(false);
-						  disable.setEnabled(false);
-                                                  register.setEnabled(true);
-					      }
-					  catch(Exception ex)
-					      {
-						  JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
-					      }
-				      }
-				  }
-				  );
+                }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+                }
+                }
+        );
 
-	allotGrade.addActionListener(
-				     new ActionListener()
-				     {
-					 public void actionPerformed(ActionEvent e)
-					 {
-					     try
-						 {
-						     gradeAllotment.getConnection();
-						     gradeAllotment.setIsTableEditable(true);
+        disable.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                try
+                {
+                registerDB.deleteTable();
+                registerDB.setIsRegEnabled(false);
+                disable.setEnabled(false);
+                register.setEnabled(true);
+                }
+                catch(Exception ex)
+                {
+                JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+                }
+                }
+                }
+                );
 
-						     gradeAllotment.superGrade("");
-						     subjectID = new JComboBox(gradeAllotment.getSubjectIDArray());
-						     tableForGrade = new JTable(gradeAllotment);
+        allotGrade.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                try
+                {
+                gradeAllotment.getConnection();
+                gradeAllotment.setIsTableEditable(true);
 
-                                                     gradePanel.removeAll();
-                                                     String title = "Grade Allotment";
-						     tabbedPane.addTab(title, gradePanel);
-                                                     int index = tabbedPane.indexOfTab(title);
-                                                     tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                                     tabbedPane.setSelectedIndex(index);
+                gradeAllotment.superGrade("");
+                subjectID = new JComboBox(gradeAllotment.getSubjectIDArray());
+                tableForGrade = new JTable(gradeAllotment);
 
-						     subjectID.addItemListener(
-									       new ItemListener()
-									       {
-										   public void itemStateChanged(ItemEvent e)
-										   {
-										       currentID = (String)subjectID.getSelectedItem();
-										       try
-											   {
-											       gradeAllotment.superGrade(currentID);
-											   }
-										       catch(Exception ex)
-											   {
-											       JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-											   }
-										   }
-									       }
-									       );
+                gradePanel.removeAll();
+                String title = "Grade Allotment";
+                tabbedPane.addTab(title, gradePanel);
+                int index = tabbedPane.indexOfTab(title);
+                tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                tabbedPane.setSelectedIndex(index);
 
-						     gradePanel.add(subjectID, BorderLayout.NORTH);
-						     gradePanel.add(new JScrollPane(tableForGrade), BorderLayout.CENTER);
-						 }
-					     catch(SQLException s)
-						 {
-						     JOptionPane.showMessageDialog(superUserScreen.this, s.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-						 }
-					 }
-				     }
-				     );
+                subjectID.addItemListener(
+                        new ItemListener()
+                        {
+                        public void itemStateChanged(ItemEvent e)
+                        {
+                        currentID = (String)subjectID.getSelectedItem();
+                        try
+                        {
+                        gradeAllotment.superGrade(currentID);
+                        }
+                        catch(Exception ex)
+                        {
+                        JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                        }
+                        }
+                        );
 
-	addSubject.addActionListener(
-				     new ActionListener()
-				     {
-					 public void actionPerformed(ActionEvent e)
-					 {
-                                             subjectPanel.removeAll();
-                                             String title = "Add new Subject";
-					     tabbedPane.addTab(title, subjectPanel);
-                                             int index = tabbedPane.indexOfTab(title);
-                                             tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                             tabbedPane.setSelectedIndex(index);
+                gradePanel.add(subjectID, BorderLayout.NORTH);
+                gradePanel.add(new JScrollPane(tableForGrade), BorderLayout.CENTER);
+                }
+        catch(SQLException s)
+        {
+            JOptionPane.showMessageDialog(superUserScreen.this, s.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+                }
+                }
+        );
 
-					     subIDLabel = new JLabel("SubjectID");
-					     subLabel = new JLabel("Subject");
-					     creditsLabel = new JLabel("Credits");
-					     teacherLabel = new JLabel("Teacher");
+        addSubject.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                subjectPanel.removeAll();
+                String title = "Add new Subject";
+                tabbedPane.addTab(title, subjectPanel);
+                int index = tabbedPane.indexOfTab(title);
+                tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                tabbedPane.setSelectedIndex(index);
 
-					     subID = new JTextField(10);
-					     sub = new JTextField(15);
-					     credits = new JTextField(4);
-					     teacher = new JTextField(10);
+                subIDLabel = new JLabel("SubjectID");
+                subLabel = new JLabel("Subject");
+                creditsLabel = new JLabel("Credits");
+                teacherLabel = new JLabel("Teacher");
 
-					     update = new JButton("UPDATE");
+                subID = new JTextField(10);
+                sub = new JTextField(15);
+                credits = new JTextField(4);
+                teacher = new JTextField(10);
 
-					     addComponent(subIDLabel, 0, 0, 1, 1, 0);
-					     addComponent(subLabel, 0, 1, 1, 1, 0);
-					     addComponent(creditsLabel, 0, 2, 1, 1, 0);
-					     addComponent(teacherLabel, 0, 3, 1, 1, 0);
+                update = new JButton("UPDATE");
 
-					     addComponent(subID, 1, 0, 1, 1, 0);
-					     addComponent(sub, 1, 1, 1, 1, 0);
-					     addComponent(credits, 1, 2, 1, 1, 0);
-					     addComponent(teacher, 1, 3, 1, 1, 0);
+                addComponent(subIDLabel, 0, 0, 1, 1, 0);
+                addComponent(subLabel, 0, 1, 1, 1, 0);
+                addComponent(creditsLabel, 0, 2, 1, 1, 0);
+                addComponent(teacherLabel, 0, 3, 1, 1, 0);
 
-					     addComponent(update, 2, 1, 2, 1, 0);
+                addComponent(subID, 1, 0, 1, 1, 0);
+                addComponent(sub, 1, 1, 1, 1, 0);
+                addComponent(credits, 1, 2, 1, 1, 0);
+                addComponent(teacher, 1, 3, 1, 1, 0);
 
-					     update.addActionListener(
-								      new ActionListener()
-								      {
-									  public void actionPerformed(ActionEvent a)
-									  {
-									      try
-										  {
-										      gradeAllotment.getConnection();
+                addComponent(update, 2, 1, 2, 1, 0);
 
-										      gradeAllotment.addNewSubject(subID.getText(), sub.getText(), Integer.parseInt(credits.getText()), teacher.getText());
-										      subID.setText("");
-										      sub.setText("");
-										      credits.setText("");
-										      teacher.setText("");
-                                                                                      JOptionPane.showMessageDialog(superUserScreen.this, "Subject Added", "Successful", JOptionPane.INFORMATION_MESSAGE);
-										  }
-									      catch(Exception ex)
-										  {
-										      JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-										  }
-									  }
-								      }
-								      );
-					 }
-				     }
-				     );
+                update.addActionListener(
+                        new ActionListener()
+                        {
+                        public void actionPerformed(ActionEvent a)
+                        {
+                        try
+                        {
+                        gradeAllotment.getConnection();
 
-	register.addActionListener(
-				   new ActionListener()
-				   {
-				       public void actionPerformed(ActionEvent e)
-				       {
-					   try
-					       {
-						   registerDB.getConnection();
-						   subjectID2 = new JComboBox(registerDB.getSubjectIDArray());
-                                                   enableBut = new JButton("Enable");
-						   subjectID2.setEnabled(true);
-						   disable.setEnabled(true);
+                        gradeAllotment.addNewSubject(subID.getText(), sub.getText(), Integer.parseInt(credits.getText()), teacher.getText());
+                        subID.setText("");
+                        sub.setText("");
+                        credits.setText("");
+                        teacher.setText("");
+                        JOptionPane.showMessageDialog(superUserScreen.this, "Subject Added", "Successful", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        catch(Exception ex)
+                        {
+                        JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                        }
+                        }
+                );
+                }
+                }
+        );
 
-                                                   registerPanel.removeAll();
-                                                   String title = "Enable Registration";
-						   tabbedPane.addTab(title, registerPanel);
-                                                   int index = tabbedPane.indexOfTab(title);
-                                                   tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                                   tabbedPane.setSelectedIndex(index);  
+        register.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                try
+                {
+                registerDB.getConnection();
+                subjectID2 = new JComboBox(registerDB.getSubjectIDArray());
+                enableBut = new JButton("Enable");
+                subjectID2.setEnabled(true);
+                disable.setEnabled(true);
 
-						   registerTable = new JTable(registerDB);
-						   registerDB.addTable();
-						   registerDB.emptyStatusTable();
-						   registerDB.displayRegisterTable();
-						   registerDB.newSemesterTable();
+                registerPanel.removeAll();
+                String title = "Enable Registration";
+                tabbedPane.addTab(title, registerPanel);
+                int index = tabbedPane.indexOfTab(title);
+                tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                tabbedPane.setSelectedIndex(index);  
 
-						   subjectID2.addItemListener(
-									      new ItemListener()
-									      {
-										  public void itemStateChanged(ItemEvent i)
-										  {
-										      try
-											  {
-											      registerDB.addToRegisterTable((String)i.getItem());
-											  }
-										      catch(Exception e)
-											  {
-											      JOptionPane.showMessageDialog(superUserScreen.this, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-											  }
-										  }
-									      }
-									      );
-                                                   enableBut.addActionListener(
-                                                                               new ActionListener()
-                                                                               {
-                                                                                    public void actionPerformed(ActionEvent a)
-                                                                                    {
-                                                                                         registerDB.setIsRegEnabled(true);
-                                                                                         enableBut.setEnabled(false);
-                                                                                         subjectID2.setEnabled(false);
-                                                                                    }
-                                                                               }
-                                                                               );
+                registerTable = new JTable(registerDB);
+                registerDB.addTable();
+                registerDB.emptyStatusTable();
+                registerDB.displayRegisterTable();
+                registerDB.newSemesterTable();
 
-                                                   registerPanel.setLayout(new BorderLayout());
-                                                   JScrollPane spane = new JScrollPane();
-                                                   registerPanel.add(spane);
-						   registerPanel.add(subjectID2, BorderLayout.NORTH);
-						   registerPanel.add(new JScrollPane(registerTable), BorderLayout.CENTER);
-                                                   registerPanel.add(enableBut, BorderLayout.SOUTH);
+                subjectID2.addItemListener(
+                        new ItemListener()
+                        {
+                        public void itemStateChanged(ItemEvent i)
+                        {
+                        try
+                        {
+                        registerDB.addToRegisterTable((String)i.getItem());
+                        }
+                        catch(Exception e)
+                        {
+                        JOptionPane.showMessageDialog(superUserScreen.this, e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                        }
+                        }
+                        );
+                enableBut.addActionListener(
+                        new ActionListener()
+                        {
+                        public void actionPerformed(ActionEvent a)
+                        {
+                        registerDB.setIsRegEnabled(true);
+                        enableBut.setEnabled(false);
+                        subjectID2.setEnabled(false);
+                        }
+                        }
+                        );
 
-                                                   register.setEnabled(false);
-					       }
-					   catch(Exception s)
-					       {
-						   JOptionPane.showMessageDialog(superUserScreen.this, s.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-					       }
+                registerPanel.setLayout(new BorderLayout());
+                JScrollPane spane = new JScrollPane();
+                registerPanel.add(spane);
+                registerPanel.add(subjectID2, BorderLayout.NORTH);
+                registerPanel.add(new JScrollPane(registerTable), BorderLayout.CENTER);
+                registerPanel.add(enableBut, BorderLayout.SOUTH);
 
-				       }
-				   }
-				   );
+                register.setEnabled(false);
+                }
+        catch(Exception s)
+        {
+            JOptionPane.showMessageDialog(superUserScreen.this, s.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
 
-	status.addActionListener(
-				 new ActionListener()
-				 {
-				     public void actionPerformed(ActionEvent e)
-				     {
-					 try
-					     {
-						 statusDB.getConnection();
+                }
+                }
+        );
 
-                                                 statusPanel.removeAll();
-                                                 String title = "Registration Status";
-						 tabbedPane.addTab(title, statusPanel);
-                                                 int index = tabbedPane.indexOfTab(title);
-                                                 tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
-                                                 tabbedPane.setSelectedIndex(index);
+        status.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                try
+                {
+                statusDB.getConnection();
 
-						 statusTable = new JTable(statusDB);
-						 statusDB.getStatusTable();
-						 statusPanel.add(new JScrollPane(statusTable), BorderLayout.CENTER);
-					     }
-					 catch(Exception s)
-					     {
-						 JOptionPane.showMessageDialog(superUserScreen.this, s.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-					     }
-				     }
-				 }
-				 );
-				
-	removeAllTabs.addActionListener(
-					new ActionListener()
-					{
-					    public void actionPerformed(ActionEvent e)
-					    {
-						tabbedPane.removeAll();
-					    }
-					}
-					);					  
-			
-	logout.addActionListener(
-				 new ActionListener()
-				 {
-				     public void actionPerformed(ActionEvent e)
-				     {
-					 new login();
-					 dispose();
-				     }
-				 }
-				 );
+                statusPanel.removeAll();
+                String title = "Registration Status";
+                tabbedPane.addTab(title, statusPanel);
+                int index = tabbedPane.indexOfTab(title);
+                tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                tabbedPane.setSelectedIndex(index);
 
-	exit.addActionListener(
-			       new ActionListener()
-			       {
-				   public void actionPerformed(ActionEvent e)
-				   {
-				       dispose();
-				   }
-			       }
-			       );
+                statusTable = new JTable(statusDB);
+                statusDB.getStatusTable();
+                statusPanel.add(new JScrollPane(statusTable), BorderLayout.CENTER);
+                }
+                catch(Exception s)
+                {
+                    JOptionPane.showMessageDialog(superUserScreen.this, s.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                }
+                }
+        );
 
-	menuBar.add(gradeMenu);
-	menuBar.add(optionsMenu);
-	menuBar.add(manageTabs);
-	menuBar.add(exitMenu);
+        removeAllTabs.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                tabbedPane.removeAll();
+                }
+                }
+                );					  
 
-	add(tabbedPane);
+        logout.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                new login();
+                dispose();
+                }
+                }
+                );
 
-	setSize(500, 500);
-	setVisible(true);
-	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        exit.addActionListener(
+                new ActionListener()
+                {
+                public void actionPerformed(ActionEvent e)
+                {
+                dispose();
+                }
+                }
+                );
 
-	addWindowListener(
-			  new WindowAdapter()
-			  {
-			      public void windowClosed(WindowEvent w)
-			      {
-				  gradeAllotment.disconnectFromDatabase();
-				  registerDB.disconnectFromDatabase();
-				  statusDB.disconnectFromDatabase();
-			      }
-			  }
-			  );
+        menuBar.add(gradeMenu);
+        menuBar.add(optionsMenu);
+        menuBar.add(manageTabs);
+        menuBar.add(exitMenu);
+
+        add(tabbedPane);
+
+        setSize(500, 500);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        addWindowListener(
+                new WindowAdapter()
+                {
+                public void windowClosed(WindowEvent w)
+                {
+                gradeAllotment.disconnectFromDatabase();
+                registerDB.disconnectFromDatabase();
+                statusDB.disconnectFromDatabase();
+                }
+                }
+                );
     }
 
     public void setSuper()
     {
-	accessDB tempDB = new accessDB();
-	tempDB.setSuperUser(true);
+        accessDB tempDB = new accessDB();
+        tempDB.setSuperUser(true);
     }
 
     public void addComponent(Component component, int row, int column, int width, int height, int identifier)
     {
-	constraints.gridx = column;
-	constraints.gridy = row;
-	constraints.gridwidth = width;
-	constraints.gridheight = height;
-	layout.setConstraints(component, constraints);
-	if(identifier == 0)
-	    subjectPanel.add(component);
-	else if(identifier == 1)
-	    newUserPanel.add(component);
+        constraints.gridx = column;
+        constraints.gridy = row;
+        constraints.gridwidth = width;
+        constraints.gridheight = height;
+        layout.setConstraints(component, constraints);
+        if(identifier == 0)
+            subjectPanel.add(component);
+        else if(identifier == 1)
+            newUserPanel.add(component);
     }
 }

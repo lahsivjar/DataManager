@@ -14,7 +14,7 @@ public class ButtonTabComponent extends JPanel {
         }
         this.pane = pane;
         setOpaque(false);
-        
+
         JLabel label = new JLabel() {
             public String getText() {
                 int i = pane.indexOfTabComponent(ButtonTabComponent.this);
@@ -24,7 +24,7 @@ public class ButtonTabComponent extends JPanel {
                 return null;
             }
         };
-        
+
         add(label);
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         JButton button = new TabButton();
