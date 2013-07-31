@@ -397,7 +397,6 @@ public class accessDB extends AbstractTableModel
 
         try
         {
-            System.out.println(userName);
             getStudentStatus = connection.prepareStatement("Select status from registrationStatus where userName = ?");
             getStudentStatus.setString(1, userName);
             temp = getStudentStatus.executeQuery();

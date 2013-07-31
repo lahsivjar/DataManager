@@ -119,7 +119,12 @@ public class superUserScreen extends JFrame
                 {
                 registerDB.getConnection();
 
-                tabbedPane.addTab("Add SuperUser", null, newUserPanel, "Add new superUser");
+                newUserPanel.removeAll();
+                String title = "Add SuperUser";
+                tabbedPane.addTab(title, newUserPanel);
+                int index = tabbedPane.indexOfTab(title);
+                tabbedPane.setTabComponentAt(index, new ButtonTabComponent(tabbedPane));
+                tabbedPane.setSelectedIndex(index);
 
                 userLabel = new JLabel("UserName: ");
                 passLabel = new JLabel("Password: ");
@@ -159,13 +164,16 @@ public class superUserScreen extends JFrame
                         try
                         {
                         registerDB.superUserEntry(user, pass, dep);
+                        userField.setText("");
+                        passField.setText("");
+                        confirmField.setText("");
+
                         JOptionPane.showMessageDialog(superUserScreen.this, "Registration Successfull", "Congrats", JOptionPane.INFORMATION_MESSAGE);
-                        submit.setEnabled(false);
                         }
-                        catch(SQLException ex)
-                        {
-                            JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-                        }
+                catch(SQLException ex)
+                {
+                    JOptionPane.showMessageDialog(superUserScreen.this, ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                }
                         }
                         else
                             JOptionPane.showMessageDialog(superUserScreen.this, "Password do not match", "ERROR", JOptionPane.ERROR_MESSAGE);
