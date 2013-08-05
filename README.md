@@ -10,3 +10,9 @@ To run this you must have a mysql server running on your system.
   - Run the following commands from mysql to grant user javafp with required permission
     - "grant usage on *.* to javafp@localhost identified by 'javafp';"
     - "grant all privileges on erp.* to javafp@localhost;"
+
+After mysql has been set and running:
+
+  - Run ant
+  - A jar file is gnenerated. To use it type "java -jar <path to DataManager>/dist/lib/*.jar
+  - Default username "5050" password "user1"
